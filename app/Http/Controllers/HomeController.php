@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Devtical\Quran\Models\Ayah;
+use Devtical\Quran\Models\Surah;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
     }
 }

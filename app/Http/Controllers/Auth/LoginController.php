@@ -45,12 +45,14 @@ class LoginController extends Controller
         }
         elseif (auth()->user()->user_type_id == 2)
         {
-            return '/home/super';
+            return '/home/teacher';
+        }
+        elseif (auth()->user()->user_type_id == 3)
+        {
+            return '/home/student';
         }
         else
-        {
-            return '/home/super';
-        }
+        { return '/home'; }
 
     }
 }

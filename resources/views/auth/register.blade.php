@@ -25,11 +25,15 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Nice Name') }}</label>
+                            <label for="type" class="col-md-4 col-form-label text-md-end">{{ __('Nice Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="type" type="text" class="form-control @error('type') is-invalid @enderror" name="type" value="{{ old('type') }}" required autocomplete="type" autofocus>
-
+{{--                                <input id="type" type="text"  name="type" value="{{ old('type') }}" required autocomplete="type" autofocus>--}}
+                                <select name="type" id="type" class="form-control @error('type') is-invalid @enderror" value="{{ old('type') }}" required autocomplete="type" autofocus>
+                                    <option value="1">admin</option>
+                                    <option value="2">leader</option>
+                                    <option value="3">student</option>
+                                </select>
                                 @error('type')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

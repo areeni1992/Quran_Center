@@ -19,9 +19,29 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/home/users', [App\Http\Controllers\UserController::class, 'index']);
-Route::get('/home/admin', [App\Http\Controllers\Admin\admin::class, 'index'])->middleware('admin');
-Route::get('/home/super', [App\Http\Controllers\Supervisor\StupervisorsController::class, 'index']);
+Route::controller(App\Http\Controllers\Admin\admin::class)
+    ->middleware('admin')
+    ->prefix('home/admin')
+    ->as('admin.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/classes', 'classes');
+        Route::get('/settings', 'settings');
+        Route::get('/settings/addstudent', 'addStudentPage');
+        Route::post('/settings/addstudent', 'addStudent');
+        Route::get('/settings/editstudent', 'editStudentPage');
+        Route::get('/settings/addhalaqah', 'addHalaqahPage');
+        Route::post('/settings/addhalaqah', 'addHalaqah');
+        Route::get('/settings/addteacher', 'addTeatcherPage');
+        Route::post('/settings/addteacher', 'addTeacher');
+    });
 
-
+Route::controller(App\Http\Controllers\Teacher\TeacherController::class)
+    ->middleware('teacher')
+    ->prefix('home/teacher')
+    ->as('teacher.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/students', 'allStudents');
+        Route::get('/reports', 'reports');
+    });
