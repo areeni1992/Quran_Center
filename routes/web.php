@@ -25,7 +25,14 @@ Route::controller(App\Http\Controllers\Admin\admin::class)
     ->as('admin.')
     ->group(function () {
         Route::get('/', 'index')->name('index');
+
+        // Routes For Classes Section
         Route::get('/classes', 'classes');
+        Route::get('/classes/edit/{id}', 'editClass');
+        Route::put('/classes/update/{id}', 'updateClass');
+        Route::get('/classes/show/{id}', 'showClass');
+
+        // Routes For Settings Section
         Route::get('/settings', 'settings');
         Route::get('/settings/addstudent', 'addStudentPage');
         Route::post('/settings/addstudent', 'addStudent');

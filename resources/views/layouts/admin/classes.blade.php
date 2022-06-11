@@ -25,13 +25,13 @@
             <div>المرحلة / براعم</div>
         </div>
         <div class="left">
-            <div><a href="{{ url('home/admin/settings/addhalaqah') }}">اضافة حلقة</a></div>
+            <div><a class="btn btn-md py-0" href="{{ url('home/admin/settings/addhalaqah') }}">اضافة حلقة</a></div>
         </div>
     </div>
 
     <div class="col-md-10">
         <section class="table-teacher">
-            <table class="table table-hover table-bordered">
+            <table class="table table-hover table-bordered text-center">
                 <thead class="main-color-bg text-white">
                 <tr>
                     <th scope="col">اسم المعلم</th>
@@ -52,11 +52,9 @@
                                 <td>{{ $t->phone }}</td>
                                 <td>{{ $clas->marahalah }}</td>
                                 <td>
-                                    <a class="btn-success" rel="stylesheet"
-                                       href="" id="{{ $clas->id}}">edit</a>
-                                    <a class="btn-danger" rel="stylesheet"
-                                       href="">delete</a> <a class="btn-info" rel="stylesheet"
-                                                             href="">show</a>
+                                    <a class="btn btn-sm btn-success" rel="stylesheet" href="{{ url('home/admin/classes/edit/'.$clas->id) }}" id="">تعديل</a>
+                                    <a class="btn btn-sm btn-danger" rel="stylesheet" href="">حذف</a>
+                                    <a class="btn btn-sm btn-info" rel="stylesheet" href="{{ url('home/admin/classes/show/'. $clas->id) }}">عرض</a>
                                 </td>
                             </tr>
                         @endif

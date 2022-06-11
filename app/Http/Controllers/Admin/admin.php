@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use RealRashid\SweetAlert\Facades\Alert;
 class admin extends Controller
 {
     public function index()
@@ -33,6 +33,83 @@ class admin extends Controller
             ->with('users', $users);
     }
 
+    public function showClass($id)
+    {
+        $userAuth = auth()->user();
+        $singleClass = Clas::findOrFail($id);
+        $students = DB::table('users')
+            ->where('clas_id', $id)
+            ->where('user_type_id', 3)->get();
+
+        $teacher = DB::table('users')
+            ->where('user_type_id', 2)
+            ->where('clas_id', $id)->first();
+
+        return view('layouts.admin.singleClass', compact('singleClass', $singleClass, 'userAuth', 'students', $students, 'teacher', $teacher));
+    }
+
+    public function editClass($id)
+    {
+        $userAuth = auth()->user();
+        $singleClass = Clas::findOrFail($id);
+        $students = DB::table('users')
+            ->where('clas_id', $id)
+            ->where('user_type_id', 3)
+            ->orWhere('clas_id', null)->get();
+        $teachers = DB::table('users')
+            ->where('user_type_id', 2)->get();
+
+        return view('layouts.admin.editClass',
+            compact(
+                'singleClass', $singleClass,
+                'userAuth', $userAuth,
+                'teachers', $teachers,
+                'students', $students));
+    }
+
+    public function updateClass(Request $request, $id)
+    {
+        $valid = $request->validate([
+            'name' => 'string',
+            'marahalah' => 'string',
+        ]);
+        if ($valid) {
+
+            $users = new User;
+            $clas = new Clas;
+            $clas->name = $request->name;
+            $clas->marahalah = $request->marahalah;
+            $students = $request->students;
+            $teatcher = $request->teacher;
+            $clas->update();
+
+            for ($i = 0; $i < count($students); $i++)
+            {
+                $student_class = [
+                    'clas_id' => $students[$i],
+                ];
+                DB::table('users')
+                    ->where('user_type_id', 3)
+                    ->where('id', $students[$i])
+                    ->where('clas_id', null)->update([
+                        'clas_id' => $id
+                    ]);
+            }
+            DB::table('users')
+                ->where('user_type_id', 2)
+                ->where('clas_id', null)
+                ->where('id', $teatcher)->update([
+                    'clas_id' => $id,
+                ]);
+
+
+            Alert::success('تم', 'تم التعديل بنجاح');
+            return back()->with('status' , 'success');
+        } else {
+            return back()->with('status', 'fails');
+        }
+    }
+
     public function settings()
     {
         $userAuth = auth()->user();
@@ -46,6 +123,7 @@ class admin extends Controller
         $classess = Clas::all();
         return view('layouts.admin.addStudent', compact('userAuth', $userAuth, 'classess', $classess));
     }
+
     public function addStudent(Request $request)
     {
         $valid = $request->validate([
@@ -59,6 +137,7 @@ class admin extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+
         if ($valid)
         {
            $userTabel = new User;
@@ -74,16 +153,22 @@ class admin extends Controller
            $userTabel->clas_id = $request->clas_id;
 
            $userTabel->save();
+           Alert::success('تم', 'تم إضافة الطالب بنجاح');
+           return back()->with('status', 'تم إضافة الطالب بنجاح');
+        } else {
+           Alert::error('خطأ', 'خطأ في البيانات');
+           return back();
         }
-        return back()->with('status', 'تم إضافة الطالب بنجاح');
+
     }
+
     public function editStudentPage()
     {
         $userAuth = auth()->user();
         $classess = Clas::all();
         return view('layouts.admin.editStd', compact('userAuth', $userAuth, 'classess', $classess));
     }
-//    public function editStudentPage
+
     public function addHalaqahPage()
     {
         $userAuth = auth()->user();

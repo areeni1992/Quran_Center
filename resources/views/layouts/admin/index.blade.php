@@ -1,4 +1,5 @@
 @include('layouts.app')
+@include('sweetalert::alert')
 <main class=" container parent my-5">
 
     <div class="navi">
@@ -55,6 +56,12 @@
         @if( url('home/admin/classes') )
             @yield('classes')
         @endif
+        @if(url('home/admin/classes/edit/{id}'))
+                @yield('editClass')
+        @endif
+        @if( url('home/admin/classes/show/{id}') )
+            @yield('singleClass')
+        @endif
         @if(url('home/admin/settings'))
             @yield('settings')
         @endif
@@ -70,6 +77,7 @@
         @if( url('home/admin/settings/addteacher') )
             @yield('addTeacher')
         @endif
+
     </div>
 
 
