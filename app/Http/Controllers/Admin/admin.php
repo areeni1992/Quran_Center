@@ -19,6 +19,8 @@ class admin extends Controller
         return view('layouts.admin.index', compact('userAuth', $userAuth));
     }
 
+
+    // Functions For Classes Tab
     public function classes()
     {
         $userAuth = auth()->user();
@@ -75,15 +77,14 @@ class admin extends Controller
         ]);
         if ($valid) {
 
-            $users = new User;
-            $clas = new Clas;
+            $clas = Clas::find($id);
             $clas->name = $request->name;
             $clas->marahalah = $request->marahalah;
             $students = $request->students;
             $teatcher = $request->teacher;
             $clas->update();
 
-            for ($i = 0; $i < count($students); $i++)
+            for ($i = 0; $i < count((is_countable($students)?$students:[])); $i++)
             {
                 $student_class = [
                     'clas_id' => $students[$i],
@@ -110,6 +111,25 @@ class admin extends Controller
         }
     }
 
+    // Functions For Teachers Tab
+    public function teachers()
+    {
+
+        $userAuth = auth()->user();
+        $teachers = User::where('user_type_id', 2)->get();
+        $countStudents = Clas::withCount([
+            'user',
+            'user as students' => function ($q) {
+                $q->where('user_type_id', 3);
+            }
+        ])->get();
+
+        return view('layouts.admin.teachers', compact('userAuth', 'countStudents', 'teachers'));
+
+    }
+
+
+    // Settings Functions
     public function settings()
     {
         $userAuth = auth()->user();

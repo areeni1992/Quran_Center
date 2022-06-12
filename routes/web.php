@@ -32,6 +32,9 @@ Route::controller(App\Http\Controllers\Admin\admin::class)
         Route::put('/classes/update/{id}', 'updateClass');
         Route::get('/classes/show/{id}', 'showClass');
 
+        // Routes For Teachers Section
+        Route::get('/teachers', 'teachers');
+
         // Routes For Settings Section
         Route::get('/settings', 'settings');
         Route::get('/settings/addstudent', 'addStudentPage');

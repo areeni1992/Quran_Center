@@ -20,7 +20,7 @@
                 </li>
                 <li class="off">
                     <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
-                    <a href="./index.html">المعلمين</a>
+                    <a href="{{ url('home/admin/teachers') }}">المعلمين</a>
                 </li>
                 <li class="off">
                     <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
@@ -58,6 +58,9 @@
         @endif
         @if(url('home/admin/classes/edit/{id}'))
                 @yield('editClass')
+        @endif
+        @if(url('home/admin/teachers'))
+            @yield('teachers')
         @endif
         @if( url('home/admin/classes/show/{id}') )
             @yield('singleClass')

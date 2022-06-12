@@ -57,7 +57,7 @@
                         @foreach($students as $std)
                             <div class="form-check">
                                 @if($std->user_type_id == 3)
-                                    <input @if($std->clas_id == $singleClass->id) checked @endif name="students[]" class="form-check-input" type="checkbox" @if($std->user_type_id == 3) value="{{ $std->id }}" @endif id="flexCheckDefault">
+                                    <input  @if($std->clas_id == $singleClass->id) checked @endif name="students[]" class="form-check-input" type="checkbox" @if($std->user_type_id == 3) value="{{ $std->id }}" @endif id="flexCheckDefault">
                                     <label class="form-check-label" for="{{ $std->name }}">
                                         {{ $std->name }}
                                     </label>
