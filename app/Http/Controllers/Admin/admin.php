@@ -128,6 +128,24 @@ class admin extends Controller
 
     }
 
+    public function editTeacher($id)
+    {
+        $userAuth = auth()->user();
+        $singleTeacher = User::findOrFail($id);
+
+        return view('layouts.admin.editTeacher', compact('userAuth', 'singleTeacher'));
+    }
+
+
+    // Function For Students Tab
+    public function allStudents()
+    {
+        $userAuth = auth()->user();
+        $users = User::with('clas')->where('user_type_id', 3)->get();
+//        dd($users);
+        return view('layouts.admin.allStudents', compact('userAuth', 'users'));
+
+    }
 
     // Settings Functions
     public function settings()
@@ -278,5 +296,4 @@ class admin extends Controller
             return back()->with('status' , 'success');
         }
     }
-
 }

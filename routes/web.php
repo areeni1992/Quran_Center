@@ -34,6 +34,10 @@ Route::controller(App\Http\Controllers\Admin\admin::class)
 
         // Routes For Teachers Section
         Route::get('/teachers', 'teachers');
+        Route::get('/teachers/edit/{id}', 'editTeacher');
+
+        // Routs For Students Section
+        Route::get('/allstudents', 'allStudents');
 
         // Routes For Settings Section
         Route::get('/settings', 'settings');

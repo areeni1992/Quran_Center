@@ -46,18 +46,18 @@
                     </tr>
                     </thead>
                     <tbody class="bg-light">
-                    <?php $i=0; ?>
+                    <?php $i=1; ?>
                     @foreach($countStudents as $count)
                         @foreach($teachers as $t)
                             @if($t->clas_id == $count->id)
                                 <tr id="{{ $count->id }}">
-                                    <td>{{ $i++ }}</td>
+                                    <td>{{ $i++ }} -</td>
                                     <td> {{ $t->name }}</td>
                                     <td>{{ $count->name }}</td>
                                     <td>{{ $count->students }}</td>
                                     <td> {{ $t->phone }} </td>
                                     <td>
-                                        <a class="btn btn-sm btn-success" rel="stylesheet" href="">تعديل</a>
+                                        <a class="btn btn-sm btn-success" rel="stylesheet" href="{{ url('home/admin/teachers/edit/'.$t->id) }}">تعديل</a>
                                         <a class="btn btn-sm btn-danger" rel="stylesheet" href="">حذف</a>
                                     </td>
                                 </tr>
