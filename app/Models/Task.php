@@ -14,5 +14,10 @@ class Task extends Model
         return $this->belongsToMany(Clas::class);
     }
 
-    protected $fillable = ['joz_count', 'task_time', 'latest_task'];
+    public function users()
+    {
+        return  $this->belongsToMany(User::class);
+    }
+
+    protected $fillable = ['joz_count', 'task_time', 'latest_task', 'name', 'mark'];
 }

@@ -21,11 +21,17 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Clas::class);
     }
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class);
+    }
+
+    public function attendance()
+    {
+        return $this->hasOne(Attendance::class, 'user_id');
+    }
+
     protected $fillable = [
         'name',
         'user_title',
@@ -34,21 +40,12 @@ class User extends Authenticatable
         'user_type_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

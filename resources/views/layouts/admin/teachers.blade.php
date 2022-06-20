@@ -32,8 +32,10 @@
 
     </div> -->
         <div class="col-md-9">
+            <h3 class="text-danger font-weight-bold my-3 text-center border border-1 border-secondary rounded-1 p-1"> <span class="text-secondary">   تاريخ اليوم / </span>{{ date('Y-m-d') }} </h3>
             <section class="table-teacher">
-                <table class="table table-hover table-bordered text-center">
+                <form action="{{ url('home/admin/teachers/attendance/') }}" method="post" class="text-center">
+                    <table class="table table-hover table-bordered text-center">
                     <thead class="main-color-bg text-white">
                     <tr>
                         <th scope="col">#</th>
@@ -41,31 +43,50 @@
                         <th scope="col">اسم الحلقة</th>
                         <th scope="col">عدد الطلاب</th>
                         <th scope="col">رقم الجوال</th>
-
                         <th scope="col">عمليات</th>
+                        <th scope="col">الحضور</th>
                     </tr>
                     </thead>
-                    <tbody class="bg-light">
-                    <?php $i=1; ?>
-                    @foreach($countStudents as $count)
-                        @foreach($teachers as $t)
-                            @if($t->clas_id == $count->id)
-                                <tr id="{{ $count->id }}">
-                                    <td>{{ $i++ }} -</td>
-                                    <td> {{ $t->name }}</td>
-                                    <td>{{ $count->name }}</td>
-                                    <td>{{ $count->students }}</td>
-                                    <td> {{ $t->phone }} </td>
-                                    <td>
-                                        <a class="btn btn-sm btn-success" rel="stylesheet" href="{{ url('home/admin/teachers/edit/'.$t->id) }}">تعديل</a>
-                                        <a class="btn btn-sm btn-danger" rel="stylesheet" href="">حذف</a>
-                                    </td>
-                                </tr>
-                            @endif
+                        @csrf
+                        <tbody class="bg-light">
+                        <?php $i=1; ?>
+                        @foreach($countStudents as $count)
+                            @foreach($teachers as $t)
+
+                                        @if($t['clas_id'] == $count->id)
+    {{--                                        @if($t->attendance->id)--}}
+                                                <tr id="{{ $count->id }}">
+                                                    <td>{{ $i++ }} -</td>
+                                                    <td> {{ $t['name'] }}</td>
+                                                    <td>{{ $count->name }}</td>
+                                                    <td>{{ $count->students }}</td>
+                                                    <td> {{ $t['phone'] }} </td>
+                                                    <td>
+                                                        <a class="btn btn-sm btn-success" rel="stylesheet" href="{{ url('home/admin/teachers/edit/'.$t['id']) }}">تعديل</a>
+                                                        <a class="btn btn-sm btn-danger" rel="stylesheet" href="">حذف</a>
+                                                    </td>
+                                                    <td>
+                                                        @if(isset($t['attendance']))
+                                                            @if($t['attendance']['attendance_date'] == date('Y-m-d'))
+                                                                <input disabled checked type="checkbox" name="attandance[]" value="{{ $t['id'] }}">
+                                                            @endif
+                                                        @else
+                                                                <input type="checkbox" name="attandance[]" value="{{ $t['id'] }}">
+
+                                                        @endif
+
+                                                    </td>
+                                                </tr>
+    {{--                                        @endif--}}
+                                        @endif
+                            @endforeach
                         @endforeach
-                    @endforeach
-                    </tbody>
+                        </tbody>
+
+
                 </table>
+                    <button class="btn btn-success px-5" type="submit">حفظ</button>
+                </form>
             </section>
         </div>
 @endsection

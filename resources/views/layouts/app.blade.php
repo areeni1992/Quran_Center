@@ -20,7 +20,7 @@
     <!-- Bootstrap CSS -->
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-rtl.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/css/all.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/all.css') }}">
     <link rel="stylesheet" href="{{ asset('css/animate.css') }}css/animate.css">
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">

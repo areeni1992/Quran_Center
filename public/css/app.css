@@ -11295,3 +11295,9 @@ textarea.form-control-lg {
     text-align: right;
     direction: rtl;
 }
+.test-input{
+    text-align: center;
+    color: #333;
+    width: 45px !important;
+    height: 30px !important;
+}

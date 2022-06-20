@@ -34,7 +34,12 @@ Route::controller(App\Http\Controllers\Admin\admin::class)
 
         // Routes For Teachers Section
         Route::get('/teachers', 'teachers');
+        Route::post('/teachers/attendance/{id}', 'attendance');
         Route::get('/teachers/edit/{id}', 'editTeacher');
+
+        // Routes For Tests Section
+        Route::get('/tests', 'markTest');
+        Route::post('/tests/{id}', 'addTestMark');
 
         // Routs For Students Section
         Route::get('/allstudents', 'allStudents');

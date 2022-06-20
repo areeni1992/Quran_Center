@@ -36,28 +36,30 @@
         <section class="table-teacher">
             <table class="table table-hover table-bordered">
                 <thead class="main-color-bg text-white">
-                <tr>
-                    <th scope="col">اسم الطالب</th>
-                    <th scope="col">اسم الحلقة</th>
-                    <th scope="col">عدد الأيات </th>
-                    <th scope="col">عدد الصفحات</th>
-                    <th scope="col">عدد أيات المراجعة</th>
-                    <th scope="col">أخر إختبار</th>
-                    <th scope="col">اسم الجزء</th>
+                    <tr>
+                        <th scope="col">اسم الطالب</th>
+                        <th scope="col">اسم الحلقة</th>
+                        <th scope="col">عدد الأيات </th>
+                        <th scope="col">عدد الصفحات</th>
+                        <th scope="col">عدد أيات المراجعة</th>
+                        <th scope="col">أخر إختبار</th>
+                        <th scope="col">اسم الجزء</th>
 
-                </tr>
+                    </tr>
                 </thead>
                 <tbody class="bg-light">
                 @foreach($users as $user)
-                 <tr>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->clas->name }}</td>
-                    <td>12</td>
-                    <td>الاحقاف</td>
-                    <td>12/5</td>
-                    <td>إنذار</td>
-                    <td>النبأ</td>
-                </tr>
+                    @if(count($users) > 0)
+                     <tr>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->clas->name }}</td>
+                        <td>12</td>
+                        <td>الاحقاف</td>
+                        <td>12/5</td>
+                        <td>إنذار</td>
+                        <td>النبأ</td>
+                    </tr>
+                     @endif
                 @endforeach
                 </tbody>
             </table>

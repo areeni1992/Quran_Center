@@ -36,7 +36,7 @@
                 </li>
                 <li class="off">
                     <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
-                    <a href="./tests.html">الاختبارات</a>
+                    <a href="{{ url('home/admin/tests') }}">الاختبارات</a>
                 </li>
                 <li class="off">
                     <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
@@ -64,6 +64,9 @@
         @endif
         @if(url('home/admin/teachers/edit/{id}'))
             @yield('editTeacher')
+        @endif
+        @if(url('home/admin/tests/{id}'))
+            @yield('markTests')
         @endif
         @if(url('home/admin/allstudents'))
             @yield('allStudents')
@@ -148,6 +151,7 @@
         <hr>
         <!-- <p class=" text-center"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid, tenetur.</p> -->
     </footer>
+<script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
 
     <script src="{{ asset('js/anime.min.js') }}"></script>
     <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>

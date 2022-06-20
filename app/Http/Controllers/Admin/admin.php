@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attendance;
 use App\Models\Clas;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+
 class admin extends Controller
 {
     public function index()
@@ -116,7 +119,14 @@ class admin extends Controller
     {
 
         $userAuth = auth()->user();
-        $teachers = User::where('user_type_id', 2)->get();
+        $teachers = collect(User::with('attendance', 'clas', 'tasks')->where('user_type_id', 2)->get()->toArray());
+//        foreach ( $teachers as $item) {
+//            dd($item['attendance']);
+//        }
+//        endforeach
+//        $attendanc = Attendance::all();
+//        $users = User::class();
+//        dd(collect($teachers));
         $countStudents = Clas::withCount([
             'user',
             'user as students' => function ($q) {
@@ -127,7 +137,14 @@ class admin extends Controller
         return view('layouts.admin.teachers', compact('userAuth', 'countStudents', 'teachers'));
 
     }
+    public function attendance(Request $request, $id)
+    {
+        $user = Attendance::find($id)->user;
+        dd(user);
 
+        return back()->with('status', 'success');
+
+    }
     public function editTeacher($id)
     {
         $userAuth = auth()->user();
@@ -136,6 +153,55 @@ class admin extends Controller
         return view('layouts.admin.editTeacher', compact('userAuth', 'singleTeacher'));
     }
 
+
+    // Functions For Tests Tab
+    public function markTest()
+    {
+        $userAuth = auth()->user();
+        $allStd = DB::table('users')->where('user_type_id', 3)->get();
+        return view('layouts.admin.markTests', compact('userAuth', 'allStd'));
+    }
+
+    public function addTestMark(Request $request)
+    {
+        $userAuth = auth()->user();
+
+        $valid = $request->validate([
+            'std_ids' => 'required',
+            'names' => 'string',
+            'task_times' => 'date',
+            'joz_nums' => 'string',
+            'joz_counts' => 'string',
+            'marks' => 'integer'
+        ]);
+
+        if ($valid)
+        {
+
+            $inputs = $request->all();
+            $students = User::all()->whereIn('user_type_id', 3)->load('tasks');
+            $tasks = Task::all()->load('users')->where('user_type_id', 3);
+
+            $task = new Task;
+//            dd($request->std_ids);
+            $task->name = $request->names;
+            $task->task_time = $request->task_times;
+            $task->joz_num = $request->joz_nums;
+            $task->mark = $request->marks;
+            $task->joz_count = $request->joz_counts;
+            $task->save();
+            $tsk_id = DB::getPdo()->lastInsertId();
+            $arr = array();
+            $taskId = Task::all()->where('id', $tsk_id);
+            $task->users()->sync($request->std_ids);
+//            dd($taskId);
+            if ($task->save()) {
+                Alert::success('تم', 'تم إضافة الطالب بنجاح');
+                return back()->with('status', 'تم إضافة الطالب بنجاح');
+            }
+
+        }
+    }
 
     // Function For Students Tab
     public function allStudents()
