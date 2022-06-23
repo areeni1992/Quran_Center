@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
-
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 class admin extends Controller
 {
     public function index()
@@ -77,14 +77,19 @@ class admin extends Controller
         $valid = $request->validate([
             'name' => 'string',
             'marahalah' => 'string',
+            'teacher' => 'string'
         ]);
+//        dd($request->all());
         if ($valid) {
 
             $clas = Clas::find($id);
+//            dd($clas);
+
             $clas->name = $request->name;
             $clas->marahalah = $request->marahalah;
             $students = $request->students;
             $teatcher = $request->teacher;
+
             $clas->update();
 
             for ($i = 0; $i < count((is_countable($students)?$students:[])); $i++)
@@ -119,31 +124,46 @@ class admin extends Controller
     {
 
         $userAuth = auth()->user();
-        $teachers = collect(User::with('attendance', 'clas', 'tasks')->where('user_type_id', 2)->get()->toArray());
-//        foreach ( $teachers as $item) {
-//            dd($item['attendance']);
-//        }
-//        endforeach
-//        $attendanc = Attendance::all();
-//        $users = User::class();
-//        dd(collect($teachers));
-        $countStudents = Clas::withCount([
+        $data = Clas::withCount([
             'user',
             'user as students' => function ($q) {
                 $q->where('user_type_id', 3);
             }
-        ])->get();
+        ])->with('user.attendance')->with('user.tasks')->with('user')->get()->toArray();
 
-        return view('layouts.admin.teachers', compact('userAuth', 'countStudents', 'teachers'));
+//        dd($data);
+
+        return view('layouts.admin.teachers', compact('userAuth', 'data'));
 
     }
-    public function attendance(Request $request, $id)
+    public function attendance(Request $request)
     {
-        $user = Attendance::find($id)->user;
-        dd(user);
+        $attendance = $request->all();
+            for ($i = 0; $i < count($attendance); $i++)
+            {
+                if (!empty($attendance['attandance'][$i])) {
+                    DB::table('attendance')->where('user_id', $attendance['attandance'][$i])->insert([
+                        'attendance_status' => $attendance['attandance'][$i]?1:0,
+                        'attendance_date' => date('Y-m-d'),
+                        'user_id' => $attendance['attandance'][$i]
+                    ]);
+                }
+            }
 
+        Alert::success('تم', 'تم إضافة الطالب بنجاح');
         return back()->with('status', 'success');
 
+    }
+    public function upsent()
+    {
+        $userAuth = auth()->user();
+        $data = User::withCount([
+            'attendance',
+            'attendance as exiset' => function ($q) {
+                $q->where('user_type_id', 2);
+            }])->with('clas')->with('attendance')->where('user_type_id', 2)->get()->toArray();
+//        dd($data);
+        return view('layouts.admin.upsent', compact('userAuth', 'data'));
     }
     public function editTeacher($id)
     {
@@ -159,13 +179,13 @@ class admin extends Controller
     {
         $userAuth = auth()->user();
         $allStd = DB::table('users')->where('user_type_id', 3)->get();
+
         return view('layouts.admin.markTests', compact('userAuth', 'allStd'));
     }
 
     public function addTestMark(Request $request)
     {
         $userAuth = auth()->user();
-
         $valid = $request->validate([
             'std_ids' => 'required',
             'names' => 'string',
@@ -174,32 +194,20 @@ class admin extends Controller
             'joz_counts' => 'string',
             'marks' => 'integer'
         ]);
-
         if ($valid)
         {
-
-            $inputs = $request->all();
-            $students = User::all()->whereIn('user_type_id', 3)->load('tasks');
-            $tasks = Task::all()->load('users')->where('user_type_id', 3);
-
             $task = new Task;
-//            dd($request->std_ids);
             $task->name = $request->names;
             $task->task_time = $request->task_times;
             $task->joz_num = $request->joz_nums;
             $task->mark = $request->marks;
             $task->joz_count = $request->joz_counts;
             $task->save();
-            $tsk_id = DB::getPdo()->lastInsertId();
-            $arr = array();
-            $taskId = Task::all()->where('id', $tsk_id);
-            $task->users()->sync($request->std_ids);
-//            dd($taskId);
-            if ($task->save()) {
-                Alert::success('تم', 'تم إضافة الطالب بنجاح');
-                return back()->with('status', 'تم إضافة الطالب بنجاح');
-            }
 
+            $tsk_id = DB::getPdo()->lastInsertId();
+            $task->users()->sync($request->std_ids);
+            Alert::success('تم', 'تم إضافة الطالب بنجاح');
+            return back()->with('status', 'تم إضافة الطالب بنجاح');
         }
     }
 

@@ -34,8 +34,11 @@
     </div> -->
         <div class="col-md-9">
             <section class="table-teacher">
-                <form action="" method="post">
+
+                    <form action="{{ url('home/admin/tests') }}" method="post">
                     @csrf
+                    @method('POST')
+
                     <table class="table table-hover table-bordered text-center" style="margin-left: 10cm;">
                     <thead class="main-color-bg text-white">
                     <tr>
@@ -48,15 +51,15 @@
                     </tr>
                     </thead>
                         <tbody class="bg-light">
-
                                 <tr>
                                     <td>
                                         <select name="std_ids" id="std_ids">
                                             @foreach($allStd as $std)
-                                                    <option value="{{ $std->id }}">
-                                                        {{ $std->name }}
-                                                    </option>
+                                                <option value="{{ $std->id }}">
+                                                            {{ $std->name }}
+                                                </option>
                                             @endforeach
+
                                         </select>
                                     </td>
                                     <td><input name="names" type="text"></td>
@@ -66,11 +69,10 @@
                                     <td><input name="marks" class="test-input" type="number"></td>
                                 </tr>
                         </tbody>
-
-                </table>
+                    </table>
                     <button class="btn btn-lg btn-toolbar text-center btn-success mx-auto px-5 py-0" type="submit">حفظ</button>
-
                 </form>
+
             </section>
         </div>
 @endsection

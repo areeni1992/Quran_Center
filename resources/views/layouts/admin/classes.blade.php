@@ -53,7 +53,7 @@
                                 <td>{{ $clas->marahalah }}</td>
                                 <td>
                                     <a class="btn btn-sm btn-success" rel="stylesheet" href="{{ url('home/admin/classes/edit/'.$clas->id) }}" id="">تعديل</a>
-                                    <a class="btn btn-sm btn-danger" rel="stylesheet" href="">حذف</a>
+{{--                                    <a class="btn btn-sm btn-danger" rel="stylesheet" href="">حذف</a>--}}
                                     <a class="btn btn-sm btn-info" rel="stylesheet" href="{{ url('home/admin/classes/show/'. $clas->id) }}">عرض</a>
                                 </td>
                             </tr>

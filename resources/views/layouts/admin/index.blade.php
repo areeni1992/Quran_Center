@@ -28,7 +28,7 @@
                 </li>
                 <li class="off">
                     <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
-                    <a href="./giab.html">الغياب</a>
+                    <a href="{{ url('home/admin/teachers/upsent') }}">الغياب</a>
                 </li>
                 <li class="off">
                     <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
@@ -61,6 +61,9 @@
         @endif
         @if(url('home/admin/teachers'))
             @yield('teachers')
+        @endif
+        @if(url('home/admin/teachers/upsent'))
+            @yield('upsent')
         @endif
         @if(url('home/admin/teachers/edit/{id}'))
             @yield('editTeacher')
