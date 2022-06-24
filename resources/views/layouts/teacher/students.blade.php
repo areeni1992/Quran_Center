@@ -22,8 +22,8 @@
     </div>
     <div class="under-title">
         <div class="right">
-            <div>حلقة المعلم / خليل يونس</div>
-            <div>المرحلة / براعم</div>
+            <div>حلقة المعلم / {{ $super['name'] }}</div>
+            <div>المرحلة / {{ $super['clas']['marahalah'] }}</div>
         </div>
         <div class="left">
             <div>اضافة / تعديل موعد</div>
@@ -35,7 +35,7 @@
             <table class="table table-hover table-bordered">
                 <thead class="main-color-bg text-white">
                 <tr>
-                    <th scope="col">اسم المعلم</th>
+                    <th scope="col">اسم الطالب</th>
                     <th scope="col">اسم الحلقة</th>
                     <th scope="col">عدد الأيات </th>
                     <th scope="col">عدد الصفحات</th>
@@ -44,62 +44,16 @@
                 </tr>
                 </thead>
                 <tbody class=" bg-light">
-                <tr>
-                    <td>سامح</td>
-                    <td>عمر بن الخطاب</td>
-                    <td>12</td>
-                    <td>الاحقاف</td>
-                    <td>12/5</td>
-                    <td>إنذار</td>
-                </tr>
-                <tr>
-                    <td>سامح</td>
-                    <td>عمر بن الخطاب</td>
-                    <td>12</td>
-                    <td>الاحقاف</td>
-                    <td>12/5</td>
-                    <td>إنذار</td>
-                </tr>
-                <tr>
-                    <td>سامح</td>
-                    <td>عمر بن الخطاب</td>
-                    <td>12</td>
-                    <td>الاحقاف</td>
-                    <td>12/5</td>
-                    <td>إنذار</td>
-                </tr>
-                <tr>
-                    <td>سامح</td>
-                    <td>عمر بن الخطاب</td>
-                    <td>12</td>
-                    <td>الاحقاف</td>
-                    <td>12/5</td>
-                    <td>إنذار</td>
-                </tr>
-                <tr>
-                    <td>سامح</td>
-                    <td>عمر بن الخطاب</td>
-                    <td>12</td>
-                    <td>الاحقاف</td>
-                    <td>12/5</td>
-                    <td>إنذار</td>
-                </tr>
-                <tr>
-                    <td>سامح</td>
-                    <td>عمر بن الخطاب</td>
-                    <td>12</td>
-                    <td>الاحقاف</td>
-                    <td>12/5</td>
-                    <td>إنذار</td>
-                </tr>
-                <tr>
-                    <td>سامح</td>
-                    <td>عمر بن الخطاب</td>
-                    <td>12</td>
-                    <td>الاحقاف</td>
-                    <td>12/5</td>
-                    <td>إنذار</td>
-                </tr>
+                @foreach($students as $row)
+                    <tr>
+                        <td>{{ $row->name }}</td>
+                        <td>{{ $super['clas']['name'] }}</td>
+                        <td>12</td>
+                        <td>الاحقاف</td>
+                        <td>12/5</td>
+                        <td>إنذار</td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </section>

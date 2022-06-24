@@ -58,7 +58,7 @@
                 <img src="{{ asset('./images/user-imag22.png') }}" alt="not found">
             </div>
             <div class="hello">
-                أهلاً  {{ $super->name }} ...
+                أهلاً  {{ $super['name'] }} ...
             </div>
         </div>
 
