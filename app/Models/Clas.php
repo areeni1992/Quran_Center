@@ -19,5 +19,10 @@ class Clas extends Model
         return $this->belongsToMany(Task::class);
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
     protected $fillable = ['name', 'ayah_count', 'ayah_revision', 'marahalah'];
 }

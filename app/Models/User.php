@@ -32,6 +32,11 @@ class User extends Authenticatable
         return $this->hasOne(Attendance::class, 'user_id');
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
     protected $fillable = [
         'name',
         'user_title',
