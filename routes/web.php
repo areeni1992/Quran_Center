@@ -28,6 +28,10 @@ Route::controller(App\Http\Controllers\Admin\admin::class)
         Route::get('/teachers/edit/{id}', 'editTeacher');
         Route::get('/teachers/upsent', 'upsent');
 
+        // Routs For Reports Section
+        Route::get('/reports', 'reports');
+        Route::get('/reports/halaqahReports/{id}', 'halaqahReports');
+
         // Routes For Tests Section
         Route::get('/tests', 'markTest');
         Route::post('/tests', 'addTestMark');
@@ -54,4 +58,13 @@ Route::controller(App\Http\Controllers\Teacher\TeacherController::class)
         Route::get('/', 'index')->name('index');
         Route::get('/students', 'allStudents');
         Route::get('/reports', 'reports');
+        Route::get('/reports', 'reports');
+        Route::get('/reports/add-report', 'addReportsPage');
+        Route::post('/reports/add-report', 'addReport');
+        Route::get('/reports/edit/{id}', 'editReport');
+        Route::put('/reports/update/{id}', 'updateReport');
+        Route::get('/reports/show/{id}', 'showReport');
+        Route::get('/quran', 'quran');
+        Route::get('/quran/surahs/{id}', 'surahs');
+        Route::get('/quran/surahs/ayahs/{id}', 'ayahs');
     });

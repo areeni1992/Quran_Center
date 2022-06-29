@@ -1,6 +1,6 @@
-
 <!doctype html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -23,115 +23,140 @@
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.14.0/sweetalert2.min.css" integrity="sha512-A374yR9LJTApGsMhH1Mn4e9yh0ngysmlMwt/uKPpudcFwLNDgN3E9S/ZeHcWTbyhb5bVHCtvqWey9DLXB4MmZg==" crossorigin="anonymous" />
 
-
-    <title>الطلاب</title>
+    <title>الاعدادات</title>
 </head>
 
 <body>
+
 <header>
     <nav class="navbar navbar-expand-lg navbar-light">
-        <div class=" container">
-            <a class="navbar-brand" href="{{ url('/') }}"><img class=" w-20" src="{{ asset('images/centerLogo.png') }}" alt="">مركز التقوى لتعليم
-                القرآن الكريم </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img class="w-20" src="{{ asset('images/تبرع 1.png') }}" alt="">مركز التقوى لتعليم القرآن الكريم </a>
+            <button class="navbar-toggler" type="button"
+                    data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <!-- Right Side Of Navbar -->
-                        <ul class="navbar-nav ms-auto">
-                            <!-- Authentication Links -->
-                            @guest
-                                @if (Route::has('login'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                    </li>
-                                @endif
-
-                                @if (Route::has('register'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                    </li>
-                                @endif
-                            @else
-                                <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->name }}
-                                    </a>
-
-                                    <div class="dropdown-menu dropdown-menu-end p-1" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item py-0" href="{{ route('logout') }}"
-                                           onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
-                                    </div>
-                                </li>
-                            @endguest
-                        </ul>
-                    </div>
+                    <li class="nav-item bg-icon">
+                        <a class="nav-link" href="./settings.html"><i class="fas fa-cog"></i></a>
+                    </li>
+                    <li class="nav-item bg-icon mr-3">
+                        <a class="nav-link" href="./form-login.html"><i class="fas fa-user-alt"></i></a>
+                    </li>
 
                 </ul>
             </div>
-
         </div>
 
     </nav>
 </header>
-<main class=" container parent my-5">
-    <div class="navi">
-        <div class="user">
+<div class="container">
+    <div class="row">
+        <a href="{{ url('home/teacher') }}" class="btn btn-success float-left mr-auto"> الرجوع للخلف </a>
+    </div>
+</div>
+<main class="container parent my-5">
+
+    <nav class="nav1">
+        <div class="cont">
             <div class="image">
-                <img src="{{ asset('./images/user-imag22.png') }}" alt="not found">
+                <img src="{{ asset('images/holy-quran.jpg') }}" alt="">
             </div>
-            <div class="hello">
-                أهلاً  {{ $super['name'] }} ...
+            <p>مركز  التقوى</p>
+        </div>
+        <div class="buttons">
+            <button>الأجزاء</button>
+            <button>السور</button>
+            <button>الاية</button>
+        </div>
+        <div class="linkss">
+            @if(isset($surahs))
+            <form action="" method="get">
+                    @csrf
+                    <ul class="quran-menu">
+                        @foreach($surahs as $surah)
+                            <li><a href="{{ url('home/teacher/quran/surahs/ayahs/'.$surah['id']) }}"> {{ $surah['title'] }}</a></li>
+                        @endforeach
+                    </ul>
+                </form>
+            @else
+
+            <form action="" method="get">
+                @csrf
+                <ul class="quran-menu">
+                    @for($i = 1; $i <= 30; $i++)
+                        <li style="color: #0A7237; background: lightslategray"><a href="{{ url('home/teacher/quran/surahs/'.$i) }}" style="color: #ffffff"> الجزء{{ $i }}</a></li>
+                    @endfor
+                </ul>
+            </form>
+                @endif
+        </div>
+    </nav>
+    <div class="inner">
+        <div class="mb-5 inner-two">
+
+            <div class="col-md-8">
+                <div class="title text-center">
+                    <div class="row">
+                        <div class="col-md-5 my-auto">
+                            <span class="line"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <h2>الرئيسية</h2>
+                        </div>
+                        <div class="col-md-5 my-auto pr-5">
+                            <span class="line"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <div style="height: 750px; overflow-y: scroll;" class="tab mx-2 container">
+            <table class="text-center">
+                @if(isset($ayahs))
+                    <tr style="background-color: #224926;">
+                            <td style="width: 55%; justify-content: center !important;">بسم الله الرحمن الرحيم</td>
+                        @foreach($ayahs as $row)
+                            <td style="width: 95%; justify-content: center !important; font-family: initial; font-size: 19px">
+                                {{  $row->content  }}
+                                <label for="ayahs">
+                                    <span class="text-danger"> ({{ $row->number }}) </span>
+                                    <span class="check"><input name="ayahs[{{ $row->number }}]" id="ayahs" type="checkbox"></span>
+                                </label>
+                            </td>
+                         @endforeach
+                    </tr>
+                @endif
 
-        <nav>
-            <ul>
-                <li>
-                    <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
-                    <a href="{{ url('home/teacher/students') }}">الطلاب</a>
-                </li>
-                <li>
-                    <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
-                    <a href="{{ url('home/teacher/quran') }}">الاختبارات اليومية </a>
-                </li>
-                <li>
-                    <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
-                    <a href="{{ url('home/teacher/reports') }}">التقارير</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-    <div class=" inner">
-        @if(url('home/teacher/students'))
-            @yield('students')
+            </table>
+
+        </div>
+        @if(isset($students))
+        <div class="container">
+            <div class="row d-flex">
+                <table class="text-center col-md-3 align-content-center justify-content-center">
+                    <tr class="">
+                        <td>إختر الطالب\ة</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select name="students" id="students">
+                                @foreach($students as $row)
+                                    <option value="{{ $row->id }}"> {{ $row->name }} </option>
+                                @endforeach
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <button class="mx-auto btn btn-success col-md-2 h-25 mt-5">إرسال المطلوب</button>
+            </div>
+        </div>
         @endif
-        @if(url('home/teacher/reports'))
-            @yield('reports')
-        @endif
-        @if(url('home/teacher/reports/add-report'))
-            @yield('addReportsPage')
-        @endif
-        @if(url('home/teacher/reports/editReport/{id}'))
-            @yield('editReport')
-        @endif
-        @if(url('home/teacher/reports/showReport/{id}'))
-            @yield('showReport')
-        @endif
+
+
     </div>
 
 

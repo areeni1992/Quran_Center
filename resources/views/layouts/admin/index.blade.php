@@ -24,7 +24,7 @@
                 </li>
                 <li class="off">
                     <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
-                    <a href="#">التقارير</a>
+                    <a href="{{ url('home/admin/reports') }}">التقارير</a>
                 </li>
                 <li class="off">
                     <div><img src="{{ asset('./images/image 26.png') }}" alt="not found"></div>
@@ -61,6 +61,12 @@
         @endif
         @if(url('home/admin/teachers'))
             @yield('teachers')
+        @endif
+        @if(url('home/admin/reports'))
+            @yield('reports')
+        @endif
+        @if(url('home/admin/reports/halaqahReports/{id}'))
+            @yield('halaqahReports')
         @endif
         @if(url('home/admin/teachers/upsent'))
             @yield('upsent')

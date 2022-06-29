@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Clas;
+use App\Models\Report;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -369,5 +370,26 @@ class admin extends Controller
             $newTeacher->save();
             return back()->with('status' , 'success');
         }
+    }
+
+    // Reports Tab
+
+    public function Reports()
+    {
+        $userAuth = auth()->user();
+        $reports = Report::all()->load('user')->first();
+        $teachers = User::all()->where('user_type_id', 2)->load('reports', 'clas')->toArray();
+//dd($teachers);
+            return view('layouts.admin.reports', compact('reports', 'userAuth', 'teachers'));
+
+    }
+
+    public function halaqahReports(Request $request, $id)
+    {
+        $userAuth = auth()->user();
+        $reports = Report::all()->where('clas_id', $id)->load('clas', 'user')->toArray();
+        $students = User::all()->where('user_type_id', 3)->where('clas_id', $id)->toArray();
+//        dd($reports);
+        return view('layouts.admin.halaqahReports', compact('reports', 'userAuth', 'students'));
     }
 }

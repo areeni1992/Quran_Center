@@ -37,6 +37,10 @@ class User extends Authenticatable
         return $this->hasMany(Report::class);
     }
 
+    public function quran()
+    {
+        return $this->belongsTo(Quran::class);
+    }
     protected $fillable = [
         'name',
         'user_title',
