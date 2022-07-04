@@ -67,4 +67,13 @@ Route::controller(App\Http\Controllers\Teacher\TeacherController::class)
         Route::get('/quran', 'quran');
         Route::get('/quran/surahs/{id}', 'surahs');
         Route::get('/quran/surahs/ayahs/{id}', 'ayahs');
+        Route::post('/quran/surahs/ayahs/send', 'sendAyahs');
+    });
+
+Route::controller(App\Http\Controllers\Student\StudentController::class)
+    ->middleware('student')
+    ->prefix('home/student')
+    ->as('student.')
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
     });

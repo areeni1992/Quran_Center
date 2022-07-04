@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Clas;
+use App\Models\Quran;
 use App\Models\Report;
 use Devtical\Quran\Models\Ayah;
 use Devtical\Quran\Models\Surah;
@@ -167,12 +168,36 @@ class TeacherController extends Controller
 
     public function ayahs($id)
     {
+        $ayah = Ayah::all()->load('surah')->where('juz', $id)->pluck('surah')->toArray();
+        $surahs = array_unique($ayah, SORT_REGULAR);
         $super = auth()->user()->load('clas')->toArray();
         $students = DB::table('users')->where('user_type_id', 3)->where('clas_id', $super['clas']['id'])->get()->toArray();
-        $ayahs = Surah::find($id)->ayahs;
-//        dd($students);
-        return view('layouts.teacher.quran', compact('ayahs', 'students'));
+        $ayahs = Surah::findOrFail($id)->ayahs->toArray();
+//        dd($ayahs);
+        return view('layouts.teacher.quran', compact('ayahs', 'students', 'surahs'));
 
+    }
+
+    public function sendAyahs(Request $request)
+    {
+
+//        dd($request->all());
+        if (isset($request->ayahs)) {
+            Quran::create([
+                'teacher_id' => $request->teacher_id,
+                'student_id' => $request->student_id,
+                'ayate_count' => isset($request->ayahs) ? count($request->ayahs) : null,
+                'ayat' => isset($request->ayahs) ? implode($request->ayahs) : null,
+                'juz_id' => $request->juz,
+                'surah_id' => $request->surah
+            ]);
+
+            Alert::success('تم', 'تم إضافة الطالب بنجاح');
+            return redirect()->back()->with('status', 'success');
+        } else {
+            Alert::error('error', 'error!');
+            return redirect()->back()->with('status', 'error');
+        }
     }
 
 }

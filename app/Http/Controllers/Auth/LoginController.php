@@ -52,7 +52,7 @@ class LoginController extends Controller
             return '/home/student';
         }
         else
-        { return '/home'; }
+        { return '/'; }
 
     }
 }

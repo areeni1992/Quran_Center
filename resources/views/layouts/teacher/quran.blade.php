@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <!-- Required meta tags -->
@@ -53,112 +53,140 @@
 
     </nav>
 </header>
+@include('sweetalert::alert')
+@if(session('status') == 'success')
+    <div  class="container alert alert-success alert-dismissible d-flex align-items-center fade show">
+        <i class="bi-check-circle-fill"></i>
+        <strong class="mx-2">Success!</strong> {{ session('status') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+@if(session('status') == 'error')
+    <div  class="container alert alert-danger alert-dismissible d-flex align-items-center fade show">
+        <i class="bi-check-circle-fill"></i>
+        <strong class="mx-2">error!</strong> {{ session('status') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
 <div class="container">
     <div class="row">
         <a href="{{ url('home/teacher') }}" class="btn btn-success float-left mr-auto"> الرجوع للخلف </a>
     </div>
 </div>
-<main class="container parent my-5">
+<main class="container parent my-5 ">
 
-    <nav class="nav1">
-        <div class="cont">
-            <div class="image">
-                <img src="{{ asset('images/holy-quran.jpg') }}" alt="">
-            </div>
-            <p>مركز  التقوى</p>
-        </div>
-        <div class="buttons">
-            <button>الأجزاء</button>
-            <button>السور</button>
-            <button>الاية</button>
-        </div>
-        <div class="linkss">
-            @if(isset($surahs))
-            <form action="" method="get">
-                    @csrf
-                    <ul class="quran-menu">
-                        @foreach($surahs as $surah)
-                            <li><a href="{{ url('home/teacher/quran/surahs/ayahs/'.$surah['id']) }}"> {{ $surah['title'] }}</a></li>
-                        @endforeach
-                    </ul>
-                </form>
-            @else
+{{--
+    1- teahcer_id
+    2- student_id
+    3- juz_id
+    4- surah_id
+    5- ayat_ids
+    6- ayate_count
+    7-
+--}}
+<!-- Success Alert -->
 
-            <form action="" method="get">
-                @csrf
-                <ul class="quran-menu">
-                    @for($i = 1; $i <= 30; $i++)
-                        <li style="color: #0A7237; background: lightslategray"><a href="{{ url('home/teacher/quran/surahs/'.$i) }}" style="color: #ffffff"> الجزء{{ $i }}</a></li>
-                    @endfor
-                </ul>
-            </form>
-                @endif
-        </div>
-    </nav>
-    <div class="inner">
-        <div class="mb-5 inner-two">
+    <form action="{{ url('home/teacher/quran/surahs/ayahs/send') }}" method="POST" class="container">
+        <input type="hidden" name="teacher_id" value="{{ auth()->user()->id }}">
+        <div class="row d-flex flex-row">
+            <nav class="nav1 col-md-3">
+                <div class="cont">
+                    <div class="image">
+                        <img src="{{ asset('images/holy-quran.jpg') }}" alt="">
+                    </div>
+                    <p>مركز  التقوى</p>
+                </div>
+                <div class="buttons">
+                    <button>الأجزاء</button>
+                    <button>السور</button>
+                    <button>الاية</button>
+                </div>
 
-            <div class="col-md-8">
-                <div class="title text-center">
-                    <div class="row">
-                        <div class="col-md-5 my-auto">
-                            <span class="line"></span>
-                        </div>
-                        <div class="col-md-2">
-                            <h2>الرئيسية</h2>
-                        </div>
-                        <div class="col-md-5 my-auto pr-5">
-                            <span class="line"></span>
+                <div class="linkss">
+                    @if(isset($surahs))
+                        <ul class="quran-menu">
+                            @foreach($surahs as $surah)
+                                <li><a href="{{ url('home/teacher/quran/surahs/ayahs/'.$surah['id']) }}"> {{ $surah['title'] }}</a></li>
+                                <input type="hidden" name="surah" value="{{ $surah['id'] }}">
+                            @endforeach
+                        </ul>
+                    @else
+                        <ul class="quran-menu">
+                            @for($i = 1; $i <= 30; $i++)
+                                <li style="color: #0A7237; background: lightslategray"><a href="{{ url('home/teacher/quran/surahs/'.$i) }}" style="color: #ffffff"> الجزء{{ $i }}</a></li>
+                                <input type="hidden" name="juz" value="{{ $i }}">
+                            @endfor
+                        </ul>
+                    @endif
+                </div>
+            </nav>
+            <div class="inner col-md-9">
+                <div class="mb-5 inner-two">
+                    <div class="col-md-8">
+                        <div class="title text-center">
+                            <div class="row">
+                                <div class="col-md-5 my-auto">
+                                    <span class="line"></span>
+                                </div>
+                                <div class="col-md-2">
+                                    <h2>الرئيسية</h2>
+                                </div>
+                                <div class="col-md-5 my-auto pr-5">
+                                    <span class="line"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div style="height: 750px; overflow-y: scroll;" class="tab mx-2 container">
-            <table class="text-center">
-                @if(isset($ayahs))
-                    <tr style="background-color: #224926;">
-                            <td style="width: 55%; justify-content: center !important;">بسم الله الرحمن الرحيم</td>
-                        @foreach($ayahs as $row)
-                            <td style="width: 95%; justify-content: center !important; font-family: initial; font-size: 19px">
-                                {{  $row->content  }}
-                                <label for="ayahs">
-                                    <span class="text-danger"> ({{ $row->number }}) </span>
-                                    <span class="check"><input name="ayahs[{{ $row->number }}]" id="ayahs" type="checkbox"></span>
-                                </label>
-                            </td>
-                         @endforeach
-                    </tr>
-                @endif
-
-            </table>
-
-        </div>
-        @if(isset($students))
-        <div class="container">
-            <div class="row d-flex">
-                <table class="text-center col-md-3 align-content-center justify-content-center">
-                    <tr class="">
-                        <td>إختر الطالب\ة</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select name="students" id="students">
-                                @foreach($students as $row)
-                                    <option value="{{ $row->id }}"> {{ $row->name }} </option>
+                <div style="height: 750px; overflow-y: scroll;" class="tab mx-2 container">
+                    <table class="text-center">
+                        @if(isset($ayahs))
+                            <tr style="background-color: #224926;">
+                                <td style="width: 55%; justify-content: center !important;">بسم الله الرحمن الرحيم</td>
+                                @foreach($ayahs as $row)
+                                    <td style="width: 95%; justify-content: center !important; font-family: initial; font-size: 19px">
+                                        {{  $row['content']  }}
+                                        <input name="juz" type="hidden" value="{{ $row['juz'] }}">
+                                        <label for="ayahs">
+                                            <span class="text-danger"> ({{ $row['number'] }}) </span>
+                                            <span class="check">
+                                            <input name="ayahs[]" value="{{ $row['content'] . $row['number'] }}" id="ayahs" type="checkbox">
+                                        </span>
+                                        </label>
+                                    </td>
                                 @endforeach
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-                <button class="mx-auto btn btn-success col-md-2 h-25 mt-5">إرسال المطلوب</button>
+                            </tr>
+                        @endif
+
+                    </table>
+                </div>
+                @if(isset($students))
+                    <div class="container mt-5 text-center">
+                        <div class="row d-flex justify-content-center">
+                            <table class="text-center col-md-3 align-content-center justify-content-center">
+                                <tr class="">
+                                    <td>إختر الطالب\ة</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select name="student_id" id="students">
+                                            @foreach($students as $row)
+                                                <option value="{{ $row->id }}"> {{ $row->name }} </option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                @endif
+                <button type="submit" class="mx-auto btn btn-lg btn-success mt-5" >إرسال</button>
             </div>
+
         </div>
-        @endif
+        @csrf
 
-
-    </div>
-
+    </form>
 
 </main>
 <div class="line2"></div>
@@ -227,7 +255,7 @@
 <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('js/scrollreveal.min.js') }}"></script>
 <script src="{{ asset('js/scrollIt.min.js') }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
+{{--<script src="{{ asset('js/app.js') }}"></script>--}}
 <script src="{{ asset('js/isotope.pkgd.min.js') }}"></script>
 <script src="{{ asset('js/smtp.js') }}"></script>
 <script>
