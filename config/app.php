@@ -174,6 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        \Chatify\ChatifyServiceProvider::class,
 
     ],
 
@@ -232,7 +233,7 @@ return [
 
 
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
-
+        'Chatify' => Chatify\Facades\ChatifyMessenger::class,
     ],
 
 ];

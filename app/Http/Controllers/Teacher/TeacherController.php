@@ -154,10 +154,7 @@ class TeacherController extends Controller
     {
         return view('layouts.teacher.quran');
     }
-    public function juz()
-    {
 
-    }
     public function surahs($id)
     {
         $ayah = Ayah::all()->load('surah')->where('juz', $id)->pluck('surah')->toArray();

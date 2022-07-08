@@ -11286,21 +11286,3 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-.inputs-field{
-    margin-right: 75px;
-    display: flex;
-    flex-direction: column;
-    column-count: 4;
-    justify-content: space-around;
-    text-align: right;
-    direction: rtl;
-}
-.test-input{
-    text-align: center;
-    color: #333;
-    width: 45px !important;
-    height: 30px !important;
-}
-header nav ul li.active a {
-    color: #0a7237;
-}
