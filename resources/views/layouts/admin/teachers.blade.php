@@ -1,5 +1,8 @@
 @extends('layouts.admin.index')
-
+<?php
+    header('Content-Type: text/plain');
+    date_default_timezone_set('UTC');
+?>
 @section('teachers')
         <div class="mb-5 inner-two">
 
@@ -36,7 +39,11 @@
             </div>
         @endif
         <div class="col-md-9">
-            <h3 class="text-danger font-weight-bold my-3 text-center border border-1 border-secondary rounded-1 p-1"> <span class="text-secondary">   تاريخ اليوم / </span>{{ date("Y/m/d h:i:sa") }} </h3>
+            <h3 class="text-danger font-weight-bold my-3 text-center border border-1 border-secondary rounded-1 p-1"> <span class="text-secondary">   تاريخ اليوم / </span>
+                 {{
+                    date("Y-m-d H:i:s A")
+                 }}
+            </h3>
             <section class="table-teacher">
                 <form action="{{ url('home/admin/teachers/attendance') }}" method="post" class="text-center">
                     @csrf

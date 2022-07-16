@@ -329,3 +329,4 @@ nav .buttons button:last-of-type{
 .page-item.active .page-link {
     background-color: #cd9622;
 }
+.swal2-container{ display: none!important;}

@@ -83,7 +83,11 @@
 
                 </ul>
             </div>
-
+            <span class="p-2">
+                            <a href="{{ url('/chatify') }}">
+                                <img src="{{ asset('images/chat.png') }}" alt="" height="50px">
+                            </a>
+                        </span>
         </div>
 
     </nav>

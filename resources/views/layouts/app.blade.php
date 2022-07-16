@@ -21,7 +21,7 @@
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-rtl.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/all.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/animate.css') }}css/animate.css">
+    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.css') }}">
@@ -90,6 +90,11 @@
                             </div>
 
                         </ul>
+                        <span class="p-2">
+                            <a href="{{ url('/chatify') }}">
+                                <img src="{{ asset('images/chat.png') }}" alt="" height="50px">
+                            </a>
+                        </span>
                     </div>
 
                 </div>
